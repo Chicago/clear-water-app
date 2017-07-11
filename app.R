@@ -34,8 +34,10 @@ usePackage("randomForest")
 # Set variables                                                             
 #------------------------------------------------------------------------------#
 
-today <- Sys.Date()
+datasetUrl <- "https://data.cityofchicago.org/Parks-Recreation/Beach-Lab-Data/2ivx-z93u"
 modelPath <- paste0(getwd(),"/data/model.Rds")
+today <- Sys.Date()
+
 
 # Socrata variables
 app_token <- readLines("credentials/token.txt")
@@ -63,8 +65,8 @@ beaches <- factor(beaches, levels = allBeaches)
 #------------------------------------------------------------------------------#
 
 #Pull latest DNA tests from Data Portal and determine if we have the 5 beaches that the model needs
-labPortal <- read.socrata("https://data.cityofchicago.org/Parks-Recreation/Beach-Lab-Data/2ivx-z93u",
-                          app_token = "ew2rEMuESuzWPqMkyPfOSGJgE")
+labPortal <- read.socrata(datasetUrl,
+                          app_token = app_token)
 dates <- labPortal$DNA.Sample.Timestamp 
 dates <- strftime(dates, format = "%Y-%m-%d")
 todaysLabs <- labPortal[dates == today & !is.na(dates),]
