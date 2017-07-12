@@ -8,9 +8,9 @@ to a [Socrata data portal](https://data.cityofchicago.org/Parks-Recreation/Beach
 
 The file ```model.Rds``` is obtained by running ```Master.R``` in the 
 [Clear Water model repo](https://github.com/Chicago/clear-water/).
-To generate the file, set the ```productionMode``` [variable]() in the model repo to TRUE. Place the file in the ```data``` directory of this repo.
+To generate the file, set the ```productionMode``` [variable](https://github.com/Chicago/clear-water/blob/master/Master.R#L85) in the model repo to TRUE. Place the file in the ```data``` directory of this repo.
 
-Make sure you also set the ```datasetUrl``` [variable]() in ```app.R```.
+Make sure you also set the ```datasetUrl``` [variable](https://github.com/Chicago/clear-water-app/blob/master/app.R#L37) in ```app.R```.
 
 ## Socrata Credentials
 
@@ -23,7 +23,7 @@ automated app, create files to save login and app token details in the `credenti
 * `password.txt`
 * `token.txt`
 
-```App.R``` will read these credentials and use them to make send the data
+```App.R``` will read these credentials and use them to send the data
 to the Socrata dataset.
 
 ## Model Settings
