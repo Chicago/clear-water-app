@@ -111,14 +111,31 @@ if (readyToModel) {
   output$recordid <- gsub("\\(", "", output$recordid)
   output$recordid <- gsub("\\)", "", output$recordid)
   
-  result <- write.socrata(dataframe = output, 
-                          dataset_json_endpoint = "https://data.cityofchicago.org/resource/xvsz-3xcj.json", 
-                          update_mode = "UPSERT",
-                          email = email,
-                          password = password,
-                          app_token = app_token)
+  catch <- try({
+    result <- write.socrata(dataframe = output, 
+                            dataset_json_endpoint = "https://data.cityofchicago.org/resource/xvsz-3xcj.json", 
+                            update_mode = "UPSERT",
+                            email = email,
+                            password = password,
+                            app_token = app_token)
+  })
   print(paste0("Predictions for ", today, " sent to Data Portal"))
   print(result)
+  if(inherits(catch, "try-error")){
+    msg <- "write.socrata failed when trying to update the Data Portal."
+    subj <- "'Clear Water Predictions - Failed to Update'"
+  } else {
+    subj <- "'Clear Water Predictions - Updated'"
+    msg <- jsonlite::fromJSON(rawToChar(result$content))
+    msg <- paste(names(msg), msg, collapse = " ")
+  }
+  
 } else {
-  print(paste0("Not enough DNA test results to issue a prediction at ", Sys.time()))
+  result <- paste0("Not enough DNA test results to issue a prediction at ", Sys.time())
+  print(result)
+  subj <- "'Clear Water Predictions - Not Ready'"
+  msg <- result
 }
+
+cmd <- paste("echo", msg, "| mail -s", subj, "-r", "data-science-bot@cityofchicago.org", "%s")
+system(sprintf(cmd, "datascience@cityofchicago.org"))
