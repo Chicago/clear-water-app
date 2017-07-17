@@ -29,3 +29,7 @@ to the Socrata dataset.
 ## Model Settings
 
 This app is currently configured to predict water quality at beaches within a regional system. Specifically, it predicts the quality of some beaches along Chicago's Lake Michigan coastline based on the same-day bacteria observed at 5 predictor beaches.
+
+## Contributing
+
+If you are interested in contributing to this project, see our [Contribution Guide](https://github.com/Chicago/clear-water-app/blob/master/CONTRIBUTING.md).
