@@ -67,14 +67,14 @@ beaches <- factor(beaches, levels = allBeaches)
 #Pull latest DNA tests from Data Portal and determine if we have the 5 beaches that the model needs
 labPortal <- read.socrata(datasetUrl,
                           app_token = app_token)
-dates <- labPortal$DNA.Sample.Timestamp 
+dates <- labPortal$dna_sample_timestamp 
 dates <- strftime(dates, format = "%Y-%m-%d")
 todaysLabs <- labPortal[dates == today & !is.na(dates),]
-readyToModel <- "Calumet" %in% todaysLabs$Beach & 
-  "63rd Street" %in% todaysLabs$Beach & 
-  "Rainbow" %in% todaysLabs$Beach & 
-  "Montrose" %in% todaysLabs$Beach & 
-  "South Shore" %in% todaysLabs$Beach
+readyToModel <- "Calumet" %in% todaysLabs$beach & 
+  "63rd Street" %in% todaysLabs$beach & 
+  "Rainbow" %in% todaysLabs$beach & 
+  "Montrose" %in% todaysLabs$beach & 
+  "South Shore" %in% todaysLabs$beach
 
 #------------------------------------------------------------------------------#
 # Generate Predictions                                                             
@@ -85,11 +85,11 @@ if (readyToModel) {
 
   input <- data.frame("Client.ID" = beaches,
                       "Date" = today,
-                      "n63rd_DNA.Geo.Mean" = todaysLabs[todaysLabs$Beach == "63rd Street","DNA.Reading.Mean"],
-                      "South_Shore_DNA.Geo.Mean" = todaysLabs[todaysLabs$Beach == "South Shore","DNA.Reading.Mean"],
-                      "Montrose_DNA.Geo.Mean" = todaysLabs[todaysLabs$Beach == "Montrose","DNA.Reading.Mean"],
-                      "Calumet_DNA.Geo.Mean" = todaysLabs[todaysLabs$Beach == "Calumet","DNA.Reading.Mean"],
-                      "Rainbow_DNA.Geo.Mean" = todaysLabs[todaysLabs$Beach == "Rainbow","DNA.Reading.Mean"])
+                      "n63rd_DNA.Geo.Mean" = todaysLabs[todaysLabs$beach == "63rd Street","dna_reading_mean"][length(todaysLabs[todaysLabs$beach == "63rd Street","dna_reading_mean"])],
+                      "South_Shore_DNA.Geo.Mean" = todaysLabs[todaysLabs$beach == "South Shore","dna_reading_mean"][length(todaysLabs[todaysLabs$beach == "South Shore","dna_reading_mean"])],
+                      "Montrose_DNA.Geo.Mean" = todaysLabs[todaysLabs$beach == "Montrose","dna_reading_mean"][length(todaysLabs[todaysLabs$beach == "Montrose","dna_reading_mean"])],
+                      "Calumet_DNA.Geo.Mean" = todaysLabs[todaysLabs$beach == "Calumet","dna_reading_mean"][length(todaysLabs[todaysLabs$beach == "Calumet","dna_reading_mean"])],
+                      "Rainbow_DNA.Geo.Mean" = todaysLabs[todaysLabs$beach == "Rainbow","dna_reading_mean"][length(todaysLabs[todaysLabs$beach == "Rainbow","dna_reading_mean"])])
   model <- readRDS(modelPath)
   predictions <- cbind(input,"prediction" = predict(model,input))
   
