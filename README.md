@@ -16,7 +16,7 @@ Make sure you also set the ```datasetUrl``` [variable](https://github.com/Chicag
 
 To upload predictions to a Socrata portal, this application uses Chicago's 
 [RSocrata](https://github.com/Chicago/RSocrata)
-[R package](https://cran.r-project.org/web/packages/RSocrata/index.html). You will have to authenticate with your data portal creditionals in order to add data to a predictions dataset. To authenticate with Socrata and upload predictions using this
+[R package](https://cran.r-project.org/web/packages/RSocrata/index.html). You will have to authenticate with your data portal credentials  in order to add data to a predictions dataset. To authenticate with Socrata and upload predictions using this
 automated app, create files to save login and app token details in the `credentials` folder, named as follows:
 
 * `email.txt`
